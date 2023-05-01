@@ -1,0 +1,98 @@
+// Cavern Flood Fill in P3 by vvixi
+// this demonstrates both flood fill and a method to procedurally create cavern areas
+
+Boolean cavernFill = true, hover = false;
+float blk, w, h;
+int[][] path;
+int[] dirs = new int[4];
+IntList neighbors = new IntList(4);
+//IntList<> dirs = new IntList<>;
+void setup() {
+
+  size(600, 600);
+  w = width/10;
+  h = height/10;
+  blk = width/50;
+  clearMap();
+}
+
+void clearMap() {
+  path = new int[int(w)][int(h)];
+  fill(100);
+  for (int i = 0; i < w; i++) {
+    for (int j = 0; j < h; j++) {
+      rect(i*blk, j*blk, blk, blk);
+    }
+  }
+  int randW = int(random(w-1));
+  int randH = int(random(h-10,h));
+  println(randW, randH);
+  path[randW][randH] = 1;
+}
+
+void drawButtons() {
+  int buttonX = 10, buttonY = 10, buttonW = 60, buttonH = 20;
+  fill(150);
+  rect(10, 10, 60, 20);
+  fill(0);
+  text("Alternate", 15, 25);
+  getInput(buttonX, buttonY, buttonW, buttonH);
+}
+
+void getInput(int butX, int butY, int butW, int butH) {
+  if (mouseX > butX && mouseX < butX+butW && mouseY > butY && mouseY < butY+butH) {
+    hover = true;
+  }
+}
+
+void mouseReleased() {
+  if (hover == true) {
+    cavernFill = !cavernFill;
+    clearMap();
+    makeFloodFill();
+  }
+}
+
+void makeFloodFill() {
+  
+  // works as flood fill without breaks, cavern creation with breaks
+  fill(40);
+  for (int i = 1; i < w-1; i++) {
+    for (int j = 1; j < h-1; j++) {
+      if (path[i][j] == 1) {
+        rect(i * blk, j * blk, blk, blk);
+        int rand = int(random(4));
+        //println(rand);
+        if (rand > 3) {
+          path[i][j + 1] = 1;
+          if (cavernFill) {
+            break;
+          }
+
+        } else if (rand > 2) {
+          path[i][j - 1] = 1;
+          if (cavernFill) {
+            break;
+          }
+
+        } else if (rand > 1) {
+          path[i+1][j] = 1;
+          if (cavernFill) {
+            break;
+          }
+          
+        } else if (rand > 0) {
+          path[i-1][j] = 1;
+          if (cavernFill) {
+            break;
+          }
+        }
+      }
+    }
+  }
+}
+
+void draw() {
+  makeFloodFill();
+  drawButtons();
+}
