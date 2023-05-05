@@ -35,8 +35,13 @@ public void div_map(int start, int _mapW, int _mapH, int _iter) {
   int iter = _iter;
   int cullA, cullB;
   boolean hori;
+  //if (mapW > mapH) { hori = true; 
   
+  //} else if (mapH > mapW) { hori = false;
+  
+  //} else {
   if (random(0, mapW+mapH) < mapW) { hori = false;} else { hori = true;} 
+  
 
   if (!hori) {
     // make vert div
