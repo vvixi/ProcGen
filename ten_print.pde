@@ -3,6 +3,7 @@ float blk, x, y;
 int gridSz = 20;
 
 void setup() {
+  surface.setTitle("Ten Print");
   background(40);
   stroke(255);
   size(600, 600);
@@ -21,4 +22,3 @@ void draw() {
     y += blk;
   }
 }
-  
